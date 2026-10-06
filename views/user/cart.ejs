@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ShopNest - Cart</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f6fa;
+        }
+
+        header {
+            background: linear-gradient(135deg, #5b4bc4, #7b61ff);
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 40px 50px;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        .cart-item {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .details h3 {
+            margin-bottom: 8px;
+        }
+
+        .details p {
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quantity button {
+            width: 35px;
+            padding: 7px;
+            border: none;
+            border-radius: 5px;
+            background: #5b4bc4;
+            color: white;
+            cursor: pointer;
+        }
+
+        .total {
+            margin-top: 30px;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: right;
+        }
+
+        .checkout {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 25px;
+            background: #5b4bc4;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .empty {
+            background: white;
+            padding: 50px;
+            text-align: center;
+            border-radius: 12px;
+        }
+
+        .empty a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #5b4bc4;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">ShopNest</div>
+
+    <nav>
+        <a href="/dashboard">Home</a>
+        <a href="/cart">Cart</a>
+        <a href="/orders">My Orders</a>
+        <a href="/logout">Logout</a>
+    </nav>
+
+</header>
+
+<div class="container">
+
+    <h1>My Cart 🛒</h1>
+
+    <% if (cart.length === 0) { %>
+
+        <div class="empty">
+
+            <h2>Your cart is empty</h2>
+
+            <p>Add some products to continue shopping.</p>
+
+            <a href="/dashboard">Continue Shopping</a>
+
+        </div>
+
+    <% } else { %>
+
+        <% cart.forEach(item => { %>
+
+            <div class="cart-item">
+
+                <div class="details">
+
+                    <h3>
+                        <%= item.name %>
+                    </h3>
+
+                    <p>
+                        Price: ₹<%= item.price %>
+                    </p>
+
+                    <p>
+                        Quantity: <%= item.quantity %>
+                    </p>
+
+                    <p>
+                        Subtotal:
+                        ₹<%= (item.price * item.quantity).toFixed(2) %>
+                    </p>
+
+                </div>
+
+                <div class="quantity">
+
+                   <button
+                        class="quantity-btn"
+                        data-product-id="<%= item.product_id %>"
+                        data-change="-1"
+                    >
+                        −
+                    </button>
+
+                    <strong>
+                        <%= item.quantity %>
+                    </strong>
+
+                    <button
+                        class="quantity-btn"
+                        data-product-id="<%= item.product_id %>"
+                        data-change="1"
+                    >
+                        +
+                    </button> 
+
+                </div>
+
+            </div>
+
+        <% }) %>
+
+        <div class="total">
+
+            <h2>
+                Total: ₹<%= total.toFixed(2) %>
+            </h2>
+
+            <a class="checkout" href="/order">
+                Proceed to Order
+            </a>
+
+        </div>
+
+    <% } %>
+
+</div>
+
+<script>
+
+document.querySelectorAll(".quantity-btn").forEach(function(button) {
+
+    button.addEventListener("click", function() {
+
+        const productId =
+            this.getAttribute("data-product-id");
+
+        const change =
+            this.getAttribute("data-change");
+
+        fetch("/update-cart", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                productId: productId,
+                change: Number(change)
+            })
+
+        })
+        .then(function(response) {
+            return response.text();
+        })
+        .then(function() {
+            location.reload();
+        })
+        .catch(function(error) {
+
+            console.error(error);
+
+            alert("Unable to update cart.");
+
+        });
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ShopNest - Order Details</title>
+    <style>
+        * { box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { margin: 0; background: #f5f6fa; }
+        header {
+            background: linear-gradient(135deg, #5b4bc4, #7b61ff);
+            color: white; padding: 18px 40px;
+            display: flex; justify-content: space-between;
+        }
+        header a { color: white; text-decoration: none; margin-left: 20px; }
+        .box {
+            max-width: 650px; margin: 40px auto; background: white;
+            padding: 35px; border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,.1);
+        }
+        h1 { color: #5b4bc4; }
+        input, textarea {
+            width: 100%; padding: 13px; margin: 8px 0 16px;
+            border: 1px solid #ddd; border-radius: 8px;
+        }
+        button {
+            width: 100%; padding: 14px; border: 0;
+            border-radius: 8px; background: #5b4bc4;
+            color: white; font-size: 16px; cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <b>ShopNest</b>
+    <nav>
+        <a href="/dashboard">Home</a>
+        <a href="/cart">Cart</a>
+        <a href="/logout">Logout</a>
+    </nav>
+</header>
+
+<div class="box">
+
+    <h1>Order Details</h1>
+
+    <form action="/payment" method="POST">
+
+        <label>Full Name</label>
+        <input type="text" name="name" value="<%= user.name %>" required>
+
+        <label>Phone Number</label>
+        <input type="text" name="phone" value="<%= user.phone || '' %>" required>
+
+        <label>Address</label>
+        <textarea name="address" rows="4" required></textarea>
+
+        <label>City</label>
+        <input type="text" name="city" required>
+
+        <label>Pincode</label>
+        <input type="text" name="pincode" required>
+
+        <button type="submit">
+            Continue to Payment
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

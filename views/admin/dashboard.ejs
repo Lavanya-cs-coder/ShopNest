@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        body{font-family:Arial;background:#f5f6fa;margin:0}
+        header{background:#5b4bc4;color:white;padding:20px 40px;display:flex;justify-content:space-between}
+        header a{color:white;text-decoration:none;margin-left:20px}
+        .container{padding:40px}
+        .cards{display:flex;gap:25px;flex-wrap:wrap}
+        .card{background:white;padding:30px;width:220px;border-radius:15px;box-shadow:0 5px 15px #ddd}
+        .card a{display:block;margin-top:15px;color:#5b4bc4;font-weight:bold;text-decoration:none}
+    </style>
+</head>
+<body>
+
+<header>
+    <b>ShopNest Admin</b>
+    <nav>
+        <a href="/admin">Dashboard</a>
+        <a href="/admin/products">Add Products</a>
+        <a href="/admin/customers">Customers</a>
+        <a href="/admin/orders">Orders</a>
+        <a href="/logout">Logout</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h1>Admin Dashboard</h1>
+
+    <div class="cards">
+
+        <div class="card">
+            <h2><%= productCount %></h2>
+            <p>Products</p>
+            <a href="/admin/products">Add Products →</a>
+        </div>
+
+        <div class="card">
+            <h2><%= customerCount %></h2>
+            <p>Customers</p>
+            <a href="/admin/customers">View Customers →</a>
+        </div>
+
+        <div class="card">
+            <h2><%= orderCount %></h2>
+            <p>Orders</p>
+            <a href="/admin/orders">View Orders →</a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

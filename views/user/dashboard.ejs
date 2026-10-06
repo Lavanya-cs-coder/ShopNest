@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ShopNest - Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f6fa;
+            color: #333;
+        }
+
+        /* HEADER */
+
+        header {
+            background: linear-gradient(135deg, #5b4bc4, #7b61ff);
+            color: white;
+            padding: 18px 40px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 22px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* MAIN */
+
+        .container {
+            padding: 35px 50px;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #777;
+            font-size: 16px;
+        }
+
+        /* SEARCH */
+
+        .search {
+            width: 100%;
+            padding: 14px 18px;
+
+            border: 1px solid #ddd;
+            border-radius: 10px;
+
+            margin-bottom: 30px;
+
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search:focus {
+            border-color: #5b4bc4;
+        }
+
+        /* PRODUCTS */
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .product {
+            background: white;
+
+            border-radius: 15px;
+            padding: 20px;
+
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+
+            transition: transform 0.2s;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+        }
+
+        .product img {
+            width: 100%;
+            height: 180px;
+
+            object-fit: cover;
+
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .product h3 {
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .category {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            color: #5b4bc4;
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* BUTTON */
+
+        button {
+            width: 100%;
+
+            padding: 12px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #5b4bc4;
+            color: white;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #4536a5;
+        }
+
+        /* NO PRODUCTS */
+
+        .no-products {
+            text-align: center;
+            padding: 60px;
+            color: #777;
+            font-size: 18px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 18px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav a {
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+
+            .container {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+            ShopNest
+        </div>
+
+        <nav>
+
+            <a href="/dashboard">
+                Home
+            </a>
+
+            <a href="/cart">
+                Cart
+            </a>
+
+            <a href="/orders">
+                My Orders
+            </a>
+
+            <a href="/logout">
+                Logout
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="container">
+
+        <div class="welcome">
+
+            <h1>
+                Welcome to ShopNest 🛍️
+            </h1>
+
+            <p>
+                Discover products and shop easily.
+            </p>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <input
+            type="text"
+            id="search"
+            class="search"
+            placeholder="Search products..."
+            onkeyup="searchProducts()"
+        >
+
+
+        <!-- PRODUCTS -->
+
+        <div class="products" id="products">
+
+            <% if (products.length === 0) { %>
+
+                <div class="no-products">
+
+                    <h3>No products available</h3>
+
+                    <p>
+                        Products will appear here when the admin adds them.
+                    </p>
+
+                </div>
+
+            <% } %>
+
+
+            <% products.forEach(product => { %>
+
+                <div
+                    class="product"
+                    data-name="<%= product.name %>"
+                >
+
+                    <img
+                        src="<%= product.image || 'https://via.placeholder.com/300x180?text=ShopNest' %>"
+                        alt="<%= product.name %>"
+                    >
+
+
+                 <h3>
+                    <a href="/product/<%= product.id %>">
+                        <%= product.name %>
+                    </a>
+                </h3>
+
+
+                    <p class="category">
+                        <%= product.category || 'General' %>
+                    </p>
+
+
+                    <p class="price">
+                        ₹<%= product.price %>
+                    </p>
+
+
+                    <button
+                        class="add-cart-btn"
+                        data-product-id="<%= product.id %>"
+                    >
+                        Add to Cart
+                    </button>
+
+                </div>
+
+            <% }) %>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        function searchProducts() {
+
+            const searchText =
+                document
+                    .getElementById("search")
+                    .value
+                    .toLowerCase();
+
+            const products =
+                document.querySelectorAll(".product");
+
+
+            products.forEach(function(product) {
+
+                const productName =
+                    product
+                        .getAttribute("data-name")
+                        .toLowerCase();
+
+
+                if (productName.includes(searchText)) {
+
+                    product.style.display = "block";
+
+                } else {
+
+                    product.style.display = "none";
+
+                }
+
+            });
+
+        }
+
+
+        function addToCart(productId) {
+
+            fetch("/add-to-cart", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    productId: productId
+                })
+
+            })
+
+            .then(function(response) {
+
+                return response.text();
+
+            })
+
+            .then(function(message) {
+
+                alert(message);
+
+            })
+
+            .catch(function(error) {
+
+                console.error(error);
+
+                alert("Unable to add product to cart.");
+
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>

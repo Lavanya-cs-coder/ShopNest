@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ShopNest - Product</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f6fa;
+        }
+
+        header {
+            background: linear-gradient(135deg, #5b4bc4, #7b61ff);
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .product-box {
+            max-width: 900px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            display: flex;
+            gap: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,.1);
+        }
+
+        .product-box img {
+            width: 400px;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .details {
+            flex: 1;
+        }
+
+        h1 {
+            font-size: 32px;
+        }
+
+        .category {
+            color: #777;
+        }
+
+        .price {
+            color: #5b4bc4;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #5b4bc4;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #4536a5;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">ShopNest</div>
+
+    <nav>
+        <a href="/dashboard">Home</a>
+        <a href="/cart">Cart</a>
+        <a href="/orders">My Orders</a>
+        <a href="/logout">Logout</a>
+    </nav>
+</header>
+
+<div class="product-box">
+
+    <img
+        src="<%= product.image || 'https://via.placeholder.com/400x350?text=ShopNest' %>"
+        alt="<%= product.name %>"
+    >
+
+    <div class="details">
+
+        <h1><%= product.name %></h1>
+
+        <p class="category">
+            Category: <%= product.category || "General" %>
+        </p>
+
+        <p class="price">
+            ₹<%= product.price %>
+        </p>
+
+        <p>
+            <%= product.description || "Quality product available at ShopNest." %>
+        </p>
+
+        <p>
+            Available Stock: <%= product.stock %>
+        </p>
+
+        <button
+            class="add-cart"
+            data-product-id="<%= product.id %>"
+        >
+            Add to Cart
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+document.querySelector(".add-cart").addEventListener("click", function() {
+
+    const productId = this.getAttribute("data-product-id");
+
+    fetch("/add-to-cart", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            productId: productId
+        })
+    })
+    .then(response => response.text())
+    .then(message => {
+        alert(message);
+    })
+    .catch(error => {
+        console.error(error);
+        alert("Unable to add product.");
+    });
+
+});
+</script>
+
+</body>
+</html>

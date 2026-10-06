@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ShopNest Admin Login</title>
+    <style>
+        body{font-family:Arial;background:#f5f6fa;display:flex;justify-content:center;align-items:center;height:100vh}
+        .box{background:white;padding:35px;width:380px;border-radius:15px;box-shadow:0 5px 20px #ddd}
+        input,button{width:100%;padding:13px;margin:8px 0 15px;box-sizing:border-box}
+        button{background:#5b4bc4;color:white;border:0;border-radius:7px;font-size:16px}
+    </style>
+</head>
+<body>
+<div class="box">
+    <h1>ShopNest Admin</h1>
+
+    <form action="/admin/login" method="POST">
+        <input type="email" name="email" placeholder="Admin Email" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button>Login</button>
+    </form>
+</div>
+</body>
+</html>
